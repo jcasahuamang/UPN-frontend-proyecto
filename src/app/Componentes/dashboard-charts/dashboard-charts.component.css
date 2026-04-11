@@ -1,0 +1,50 @@
+.chart-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* Disposición vertical */
+    height: 100vh;
+    width: 100%;
+}
+
+#container {
+    width: 80%;
+    height: 80%;
+}
+
+.datepicker-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
+}
+
+mat-form-field {
+    width: 100%;
+    /* Asegura que el campo de entrada ocupe todo el espacio disponible dentro del contenedor */
+    max-width: 300px;
+    /* Opcional: define un ancho máximo para el campo */
+}
+
+.toggle-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 200px;
+    border-radius: 5px;
+}
+
+.toggle-button i {
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.toggle-button:hover {
+    background-color: #0056b3;
+}

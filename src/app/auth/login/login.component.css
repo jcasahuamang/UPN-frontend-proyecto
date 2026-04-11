@@ -1,0 +1,187 @@
+.hold-transition {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /*background-image: url('/assets/img/logo_fondo.png');*/ /*not to put the image here, because when it is deployed in the server, the image doesn't charge*/
+    background-size: cover;
+    background-position: center;
+    background-color: #ffffff; 
+   /* background-color: #ffffff; */ /*opcion 1*/
+  /* background-color: #fafafa; */ /*opcion 2*/
+
+   /* background-color:rgb(237, 243, 246);*//*opcion 3*/
+   /*  background-color:rgb(23, 144, 208);*/
+  }
+
+.centered-lottie {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    cursor: pointer;
+}
+
+.custom-card {
+    border-top: 2px solid;
+    border-image: linear-gradient(to right, magenta, cyan, yellow, black) 1;
+    
+    /* Puedes ajustar el grosor del borde con `border-top` y modificar el gradiente para que quede como lo deseas */
+}
+
+
+/* :root {
+    --facial-color: #3fefef;
+}
+
+.scan {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    animation: animateColor 2s linear infinite;
+}
+
+@keyframes animateColor {
+
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+.scan .face {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background: url('../assets/img/man.png');
+    background-size: 50px;
+}
+
+.scan .face::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../assets/img/man.png');
+    background-size: 50px;
+    animation: animate 4s ease-in-out infinite;
+}
+
+@keyframes animate {
+
+    0%,
+    100% {
+        height: 0%;
+    }
+
+    50% {
+        height: 100%;
+    }
+}
+
+.scan .face::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--facial-color);
+    border-radius: 8px;
+    filter: drop-shadow(0 0 20px var(--facial-color)) drop-shadow(0 0 60px var(--facial-color));
+    animation: animate_line 4s ease-in-out infinite;
+}
+
+@keyframes animate_line {
+
+    0%,
+    100% {
+        top: 0%;
+    }
+
+    50% {
+        top: 100%;
+    }
+}
+
+.scan h3 {
+    text-transform: uppercase;
+    color: var(--facial-color);
+    font-size: 0.5em;
+    margin-top: 2px;
+    letter-spacing: 1.5px;
+    filter: drop-shadow(0 0 20px var(--facial-color)) drop-shadow(0 0 60px var(--facial-color));
+    animation: animate_text 0.5s steps(1) infinite;
+}
+
+@keyframes animate_text {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.scan .face .dots {
+    position: absolute;
+    inset: 0;
+}
+
+.scan .face .dots::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background: url();
+    background-size: 50px;
+    animation: face_lines 4s ease-in-out infinite;
+}
+
+@keyframes face_lines {
+
+    0%,
+    25%,
+    100% {
+        height: 0%;
+    }
+
+    50% {
+        height: 100%;
+    }
+}
+
+.scan .face .dots::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background: url();
+    background-size: 50px;
+    animation: face_points 4s ease-in-out infinite;
+}
+
+@keyframes face_points {
+
+    0%,
+    100% {
+        height: 0%;
+    }
+
+    50% {
+        height: 100%;
+    }
+} */

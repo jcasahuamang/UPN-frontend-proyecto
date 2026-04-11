@@ -1,0 +1,217 @@
+<div class="card mx-3">
+
+    <div class="card-header">
+      <h3 class="card-title">
+        <i class="far fa-list-alt"></i>
+          &nbsp;
+          Configurar
+          &nbsp;
+    </h3>
+
+    <div class="row">
+      <div class="col-md-10">
+
+      </div>
+      <div class="col-md-2">
+        &nbsp;&nbsp;
+        <!--
+        <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" (click)="onExportExcel()"
+        >
+          <i class="fa fa-file-excel"></i>&nbsp;&nbsp;Exportar Excel
+        </button>
+        -->
+      </div>
+
+    </div>
+  
+    </div>
+  
+    <div class="card-body">
+      <!--Start creating your amazing application!-->
+      <!-- Contenedor principal para los filtros -->
+      <div class="container mt-0 ml-1 mr-1">
+
+        <form method="post" (ngSubmit)="onFiltrar()" [formGroup]="filtroForm">
+          <div class="row">
+            <!-- Filtro de Tipo de Empresa -->
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="empresa">Empresas</label>
+                <select class="form-control" style="width: 100%;" 
+                   data-select2-id="1" tabindex="-1" aria-hidden="true" id="empresa" formControlName="empresa"
+                   (change)="ListPlanillas()">
+                  <option value="00" disabled>Seleccionar</option>
+                  <option *ngFor="let item of listaEmpresas" [value]="item.id">
+                    {{item.desrazonsocial}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Filtro de Tipo de Planilla -->
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="planilla">Planilla</label>
+                <select class="form-control" style="width: 100%;" 
+                data-select2-id="1" tabindex="-1" aria-hidden="true" id="planilla" formControlName="planilla">
+               <option value="00" disabled>Seleccionar</option>
+               <option *ngFor="let item of listaPlanillas" [value]="item.codtipoplanilla">
+                 {{item.destipoplanilla}}
+               </option>
+             </select>
+              </div>
+            </div>
+
+            <!-- Filtro de Tipo de Documento -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="documento">Tipo de Documento</label>
+                  <select class="form-control" id="documento" formControlName="documento">
+                    <option value="00" disabled>Seleccionar</option>
+                    <!--
+                    <option value="BOL">Boleta de Pago</option>
+                    <option value="CTS">Boleta de CTS</option>
+                    <option value="5TA">Certificado de Quinta</option>
+                  -->
+                    <option *ngFor="let item of listaDocumentos" [value]="item.codigo">
+                      {{item.descripcion}}
+                    </option>
+
+                  </select>
+                </div>
+              </div>
+          
+              <!-- Filtro de Año -->
+              <div class="col-md-2" *ngIf="filtroForm.get('documento')?.value!='5TA'">
+                <div class="form-group">
+                  <label for="year">Año</label>
+                  <input type="number" formControlName="year" id="year" class="form-control" placeholder="Ingresa el Año" min="2020" max="2100">
+              </div>
+              </div>
+        
+              <!-- Filtro de Mes -->
+              <!--
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="mes">Mes</label>
+                  <select class="form-control" id="month" formControlName="month">
+                    <option value="00" disabled>Selecciona el Mes</option>
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                  </select>
+                </div>
+              </div>
+              -->
+              <!-- Botón de Filtro -->
+               <!--          <div class="col-md-2 text-right">-->
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label for="mes" style="color: white;">   .</label>
+                  <div class="row">
+                    <!--<button class="btn btn-primary" onclick="ejecutarFiltro()">Filtrar</button>-->
+                    <button *ngIf="!isProcessing" class="btn btn-info" title="Filtrar Periodos">
+                      <i class="fas fa-search"></i> <!-- Icono de búsqueda -->
+                    </button>
+
+                    <button *ngIf="isProcessing" class="btn btn-info" type="button" disabled>
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <!-- Consultando...-->
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+    
+            </div>        
+        </form>
+
+      </div>
+
+      <div class="table-responsive">
+
+        <table mat-table [dataSource]="detalleData" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="Opciones">
+                <th mat-header-cell *matHeaderCellDef> Opciones </th>
+
+                <td mat-cell *matCellDef="let visualizacion">
+                    <button type="button" name="habilitar" (click)="onHabilitar(visualizacion)"
+                        title="Habilitar" data-toggle="modal" data-target="#viewModalccosto"
+                        class="btn btn-outline-success btn-sm">
+                        <i class="fa fa-check-circle"></i>
+                    </button>
+                    &nbsp;
+                    <button type="button" name="deshabilitar" (click)="onDeshabilitar(visualizacion)"
+                        title="Deshabilitar" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Empresa">
+              <th mat-header-cell *matHeaderCellDef> Empresa</th>
+              <td mat-cell *matCellDef="let visualizacion"> {{visualizacion.desempresa}} </td>
+            </ng-container>
+ 
+            <ng-container matColumnDef="Planilla">
+              <th mat-header-cell *matHeaderCellDef>Planilla</th>
+              <td mat-cell *matCellDef="let visualizacion"> {{visualizacion.desplanilla}} </td>
+            </ng-container>
+ 
+
+          <ng-container matColumnDef="Documento">
+            <th mat-header-cell *matHeaderCellDef> Documento</th>
+            <td mat-cell *matCellDef="let visualizacion"> {{visualizacion.desdocumento}} </td>
+        </ng-container>
+
+            <ng-container matColumnDef="Periodo">
+                <th mat-header-cell *matHeaderCellDef> Periodo</th>
+                <td mat-cell *matCellDef="let visualizacion"> {{visualizacion.desperiodo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Estado">
+              <th mat-header-cell *matHeaderCellDef> Estado</th>
+              <td mat-cell *matCellDef="let visualizacion" [ngStyle]="{'color': visualizacion.estado === 'Habilitado' ? 'green' : 'red'}">{{visualizacion.estado}}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="detalleCol"></tr>
+            <tr mat-row *matRowDef="let row; columns: detalleCol;"
+            (click)="onRowClicked(row)"
+            [ngClass]="{'selected': selectedId === row.desperiodo}"></tr>
+
+
+        </table>
+
+        <mat-paginator #paginatordetalle [pageSizeOptions]="[6,12]" showFirstLastButtons></mat-paginator>
+
+    </div>
+
+    </div>
+    <!-- /.card-body -->
+    <!--<div class="card-footer">
+      Footer
+    </div>-->
+  
+    <div class="modal-footer">
+      <!--
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-info" #closeBtn>Guardar</button>
+        -->
+    </div>
+  
+  
+    <!-- /.card-footer-->
+  </div>
+  

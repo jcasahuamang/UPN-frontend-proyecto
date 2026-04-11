@@ -1,0 +1,113 @@
+p {
+    font-family: "Trajan";
+  }
+  
+  p.tabla {
+  font-size: 11px;
+  }
+  
+  label{
+    font-family: "Trajan";
+  }
+  
+  table {
+    width: 100%;
+  }
+  .mat-header-row{
+      height: auto;
+  }
+  .mat-row:nth-child(even) {
+      background-color:white;
+  }
+  .mat-row:nth-child(odd) {
+      background-color: #f7f7f7;
+  }
+  .mat-header-cell {
+    color: white;
+    background-color: rgb(41, 93, 156);
+    padding: 10px 10px 10px 0;
+  }
+  
+  .mat-header-cell-back {
+      color: white;
+      background-color: #2A5C9E;
+      padding: 10px 10px 10px 0;
+  }
+  .mat-row {
+      height: auto;
+  }
+  .mat-cell {
+      padding: 3px 3px 3px 0;
+  }
+  
+  * {
+    border-radius: 0 !important;
+  }
+  
+  * {
+    -webkit-border-radius: 0 !important;
+       -moz-border-radius: 0 !important;
+            border-radius: 0 !important;
+  }
+  .div.border{
+    border-style: solid;
+  }
+  
+   .button-edit{
+    background-color: #8cb7ec;
+  }
+  
+  .button-acceso{
+      background-color: #969696;
+  }
+  
+  .button-delete{
+      background-color: #f80000;
+  }
+  
+  .div.letter {
+  font-size: 50px;
+  }
+  
+  .modal {
+  overflow-y:auto;
+  }
+  
+  .custom-modal-width {
+    max-width: 40%;  /* Ajusta el ancho a 70% de la pantalla */
+  }
+
+.selected {
+  background-color: #d1eaff !important;
+}
+
+  .custom-border .mat-form-field-appearance-fill .mat-form-field-flex {
+    border: 2px solid #1976d2;
+    border-radius: 6px;
+    background-color: #fff;
+  }
+  .custom-border input.form-control {
+    border: 2px solid #1976d2;
+    border-radius: 6px;
+    background-color: #fff;
+  }
+
+    .card-title{
+    color:rgb(1, 112, 185);
+  }
+  
+  /*
+.seccion1{
+  display: flex;
+  flex-direction: row; 
+}
+*/
+/*
+.seccionRegistro{
+  flex: 1;
+}
+
+.seccionHistorial{
+  flex: 2;
+}
+*/

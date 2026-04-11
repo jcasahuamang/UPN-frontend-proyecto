@@ -1,0 +1,108 @@
+<!-- <p>Id de Anuncio: {{idAnuncio}}</p>-->
+<!--
+<div>
+    <button (click)="enableEditor()" [disabled]="!editorDisabled">Enable</button>
+    <button (click)="disableEditor()" [disabled]="editorDisabled">Disable</button>
+  </div>
+  -->
+
+  <div class="card mx-3">
+  
+    <div class="card-body">
+      <!--Start creating your amazing application!-->
+      <!-- Contenedor principal para los filtros -->
+      <div class="container mt-0 ml-0 mr-0">
+<!--
+        <form method="post" (ngSubmit)="onGuardar()" [formGroup]="formAnuncio">
+          -->
+
+          <form method="post" [formGroup]="formAnuncio">
+
+          <div class="row">
+            <!--
+            <div class="col-md-1">
+              <div class="form-group">
+                <label for="input">Id</label>
+                <input type="number" formControlName="id" id="id" class="form-control">
+              </div>
+            </div>
+            -->
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="input" *ngIf="accionNuevo">Titulo <span style="color:rgb(8, 82, 148) ;">(Nuevo Anuncio)</span> </label>
+                <label for="input" *ngIf="!accionNuevo">Titulo <span style="color:rgb(8, 82, 148) ;">(Anuncio {{this.idAnuncio}})</span> </label>
+                <input type="text" formControlName="titulo" id="titulo" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['titulo'].errors}"
+                >               
+                
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="input">Descripción</label>
+                <input type="text" formControlName="descripcion" id="descripcion" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['descripcion'].errors}"
+                >
+              </div>
+            </div>
+
+        
+              <!-- Botón de Filtro -->
+               <!--          <div class="col-md-2 text-right">-->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="mes" style="color: white;">   .</label>
+                  <div class="row">
+                    <!--<button class="btn btn-primary" onclick="ejecutarFiltro()">Filtrar</button>-->
+                    <button *ngIf="!isProcessing" class="btn btn-info" title="Guardar" (click)="onGuardar()">
+                      <i class="fas fa-search"></i> <!-- Icono de búsqueda -->
+                      Guardar
+                    </button>
+
+                    <button *ngIf="isProcessing" class="btn btn-info" type="button" disabled>
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                       Guardando...
+                    </button>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;                    
+                    <button  class="btn btn-primary" title="Regresar" (click)="onRetornar()">
+                      <i class="fa fa-arrow-left"></i> <!-- Icono de búsqueda -->
+                      <!--Guardar-->
+                    </button>
+                  </div>
+                </div>
+              </div>
+          </div>   
+          
+          <div class="row">
+            <div class="col-md-12">
+                  <div [formGroup]="formAnuncio" style="background-color: white;">
+                    <div formControlName="contenido" 
+                        [ngxSummernote]="config"
+                        [ngxSummernoteDisabled]="editorDisabled"
+                        (blur)="onBlur()"
+                        (mediaDelete)="onDelete($event)"
+                        (summernoteInit)="summernoteInit($event)">
+                    </div>
+                  </div>
+                <!--
+                  <h1>Code</h1>
+                  <p>{{f['contenido'].value}}</p>
+                  -->
+  
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+
+    </div>
+    <!--
+    <div class="modal-footer">
+    </div>
+    -->
+  </div>
+  

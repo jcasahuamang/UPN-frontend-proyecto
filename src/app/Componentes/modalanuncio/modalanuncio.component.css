@@ -1,0 +1,70 @@
+
+/* Estilos comunes para los botones del carousel */
+.carousel-button,
+.close-button {
+/*  background-color: rgba(0, 0, 0, 0.3);*/  /* Fondo oscuro transparente */
+/*  background-color: rgba(10, 82, 141);*/ 
+
+  background-color: rgb(41, 118, 211);  
+  color: white;  /* Color blanco para el icono */
+  padding: 6px;  /* Tamaño del botón */
+  border-radius: 50%;  /* Bordes redondeados */
+  /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); */ /* Sombra sutil */ 
+  transition: all 0.3s ease-in-out;  /* Transición suave para efectos */
+  border: none;
+  border-style: solid;
+  border-width: 1px;
+
+}
+
+/* Efecto hover para el botón de carousel */
+.carousel-buttonxx:hover,
+.close-buttonxx:hover {
+  /*background-color: rgba(10, 82, 141, 0.2);  /* Fondo más oscuro al pasar el ratón */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);  /* Sombra más fuerte al hacer hover */
+  transform: scale(1.1);  /* Agrandar ligeramente el botón */
+
+}
+.carousel-button:hover,
+.close-button:hover {
+  background-color: white;
+  color: rgb(41, 118, 211);
+}
+
+/* Efecto de clic (active) */
+.carousel-button:active,
+.close-button:active {
+  transform: scale(0.95);  /* Reducir ligeramente el tamaño al hacer clic */
+}
+/*
+.confirmar-button{
+  width: 60px;
+  border: none;
+  border-radius: 65%;
+  background-color: rgba(10, 82, 141);
+  color: white;
+}
+*/
+.confirmar-button{
+  background-color: white;
+  border-color: rgb(41, 118, 211);
+  border-style: solid;
+  border-width: 1px;
+  color: rgb(41, 118, 211);
+  width: 75px;
+  transition: background-color 0.15s,
+              color 0.15s;
+  padding-top: 9px;
+  padding-bottom: 9px;
+               
+  vertical-align: top;
+  border-radius: 10%;                    
+} 
+.confirmar-button:hover{
+  background-color: rgb(41, 118, 211);
+  color: white;
+}
+.confirmar-button:active{
+  opacity: 0.7;
+  color: white;
+}

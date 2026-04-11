@@ -1,0 +1,185 @@
+<div class="card mx-3">
+
+  <div class="card-header">
+    <h3 class="card-title" style="color:rgb(1, 112, 185)">
+      <i class="far fa-list-alt"></i>
+        &nbsp;
+        Datos Generales
+        &nbsp;
+  </h3>
+
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+      <!--
+      <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+        <i class="fas fa-times"></i>
+      </button>
+-->
+    </div>
+
+  </div>
+
+  <div class="card-body">
+    <!--Start creating your amazing application!-->
+
+    <div class="table-responsive">  
+      <div class="container mt-2 mx2">       
+               
+          <form #personalDatosForm="ngForm" class="row g-3" >
+            
+            <!-- Nombre del Trabajador -->
+            <div class="col-md-3">
+              <label for="nomtrabajador" class="form-label">Nombre</label>
+              <input type="text" disabled class="form-control" id="nomtrabajador" [(ngModel)]="personalDatos.nomtrabajador" name="nomtrabajador">
+            </div>
+            
+            <!-- Apellido Paterno -->
+            <div class="col-md-3">
+              <label for="apepaterno" class="form-label">Apellido Paterno</label>
+              <input type="text" disabled class="form-control" id="apepaterno" [(ngModel)]="personalDatos.apepaterno" name="apepaterno">
+            </div>
+        
+            <!-- Apellido Materno -->
+            <div class="col-md-3">
+              <label for="apematerno" class="form-label">Apellido Materno</label>
+              <input type="text" disabled class="form-control" id="apematerno" [(ngModel)]="personalDatos.apematerno" name="apematerno">
+            </div>
+
+            <!-- doc. identidad -->
+            <div class="col-md-3">
+              <label for="numdocidentidad" class="form-label">Doc. Identidad</label>
+              <input type="text" disabled class="form-control" id="numdocidentidad" [(ngModel)]="personalDatos.numdocidentidad" name="numdocidentidad">
+            </div>
+
+            <!-- Fecha de Ingreso -->
+            <div class="col-md-3">
+              <label for="fecingreso" class="form-label">Fecha de Ingreso</label>
+              <input type="text" disabled class="form-control" id="fecingreso" [(ngModel)]="personalDatos.fecingreso" name="fecingreso">
+            </div>
+        
+            <!-- Sexo -->
+            <div class="col-md-3">
+              <label for="tipsexo" class="form-label">Sexo</label>
+              <input type="text" disabled class="form-control" id="tipsexo" [(ngModel)]="personalDatos.tipsexo" name="tipsexo">
+            </div>
+        
+        
+            <!-- Estado Civil -->
+            <div class="col-md-3">
+              <label for="tipestado" class="form-label">Estado Civil</label>
+              <input type="text" disabled class="form-control" id="tipestado" [(ngModel)]="personalDatos.tipestado" name="tipestado">
+            </div>
+            <!-- Fecha de Nacimiento -->
+            <div class="col-md-3">
+              <label for="fecnacimiento" class="form-label">Fecha de Nacimiento</label>
+              <input type="text" disabled class="form-control" id="fecnacimiento" [(ngModel)]="personalDatos.fecnacimiento" name="fecnacimiento">
+            </div>
+
+          <!--Banco de cuenta -->
+          <div class="col-md-3">
+              <label for="bancocuenta" class="form-label">Banco</label>
+              <input type="text" disabled class="form-control" id="bancocuenta" [(ngModel)]="personalDatos.bancocuenta" name="bancocuenta">
+              </div>                              
+            
+            <!-- Número de Cuenta de Pago -->
+            <div class="col-md-3">
+              <label for="numcuentapago" class="form-label">Nro de Cuenta de Pago</label>
+              <input type="text" disabled class="form-control" id="numcuentapago" [(ngModel)]="personalDatos.numcuentapago" name="numcuentapago">
+            </div>
+
+          <!-- Moneda Pago -->
+          <div class="col-md-3">
+              <label for="desmoneda" class="form-label">Moneda Pago</label>
+              <input type="text" disabled class="form-control" id="desmoneda" [(ngModel)]="personalDatos.desmoneda" name="desmoneda">
+              </div>
+
+          <!--Sueldo -->
+          <div class="col-md-3">
+              <label for="sueldo" class="form-label">Sueldo</label>
+              <input type="text" disabled class="form-control" id="sueldo" [(ngModel)]="personalDatos.sueldo" name="sueldo">
+          </div>
+
+          <!-- Asig. familiar -->
+          <div class="col-md-2">
+          <label for="asigfamiliar" class="form-label">¿Asig. Familiar?</label>
+          <input type="text" disabled class="form-control" id="asigfamiliar" [(ngModel)]="personalDatos.asigfamiliar" name="asigfamiliar">
+          </div>
+          
+          <!-- Número de Hijos -->
+          <div class="col-md-2">
+              <label for="numhijos" class="form-label">Nro de Hijos</label>
+              <input type="text" disabled class="form-control" id="numhijos" [(ngModel)]="personalDatos.numhijos" name="numhijos">
+          </div>
+              
+          <!-- tipo de pension -->
+          <div class="col-md-2">
+              <label for="tippension" class="form-label">Tipo de pension</label>
+              <input type="text" disabled class="form-control" id="tippension" [(ngModel)]="personalDatos.tippension" name="tippension">
+          </div>
+
+          <!-- AFP -->
+          <div class="col-md-2">
+              <label for="nomafp" class="form-label">AFP</label>
+              <input type="text" disabled class="form-control" id="nomafp" [(ngModel)]="personalDatos.nomafp" name="nomafp">
+          </div>
+
+          <!-- Cuspp -->
+          <div class="col-md-2">
+              <label for="codunicospp" class="form-label">Cod. Unico SPP</label>
+              <input type="text" disabled class="form-control" id="codunicospp" [(ngModel)]="personalDatos.codunicospp" name="codunicospp">
+          </div>
+          <!-- Mixta -->
+          <div class="col-md-2">
+              <label for="commixta" class="form-label">Com. Mixta</label>
+              <input type="text" disabled class="form-control" id="commixta" [(ngModel)]="personalDatos.commixta" name="commixta">
+          </div>
+          
+            <!-- Descripción de Costos -->
+            <div class="col-md-4">
+              <label for="desccostos" class="form-label">Descripción de Costos</label>
+              <input type="text"  disabled class="form-control" id="desccostos" [(ngModel)]="personalDatos.desccostos" name="desccostos">
+            </div>
+        
+          <!-- Sucursal -->
+          <div class="col-md-4">
+              <label for="nomsucursal" class="form-label">Sucursal</label>
+              <input type="text" disabled class="form-control" id="nomsucursal" [(ngModel)]="personalDatos.nomsucursal" name="nomsucursal">
+          </div>
+
+          <!-- Cargo -->
+          <div class="col-md-4">
+              <label for="descargo" class="form-label">Cargo</label>
+              <input type="text" disabled class="form-control" id="descargo" [(ngModel)]="personalDatos.descargo" name="descargo">
+          </div>
+
+          <!-- Otros campos similares... -->
+            <!-- Puedes continuar agregando los demás campos en el formulario de manera similar -->
+        
+            <!-- Botón de Enviar -->
+            <!--<div class="col-12">
+              <button type="submit" class="btn btn-primary" [disabled]="!personalDatosForm.valid">Enviar</button>
+            </div>
+          -->
+          </form>
+        </div>
+        
+    </div>
+
+  </div>
+  <!-- /.card-body -->
+  <!--<div class="card-footer">
+    Footer
+  </div>-->
+
+  <div class="modal-footer">
+    <!--
+      <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+      <button type="submit" class="btn btn-info" #closeBtn>Guardar</button>
+      -->
+  </div>
+
+
+  <!-- /.card-footer-->
+</div>

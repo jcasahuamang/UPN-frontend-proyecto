@@ -1,0 +1,29 @@
+.custom-spinner {
+    width: 5rem;
+    /* Ajustar el tamaño del spinner */
+    height: 5rem;
+    /* Ajustar el tamaño del spinner */
+    border-width: 0.5rem;
+    /* Aumentar el grosor del borde del spinner */
+    color: magenta;
+    /* Cambiar el color del spinner a magenta */
+}
+
+.modal-dialog-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Ocupa toda la pantalla */
+}
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo semitransparente */
+}
+
+.modal-content {
+    background: none;
+    border: none;
+    box-shadow: none;
+}

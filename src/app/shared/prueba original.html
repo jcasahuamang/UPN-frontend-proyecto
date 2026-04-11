@@ -1,0 +1,128 @@
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a class="brand-link">
+    <span class="labelperso">KIOSKO</span>
+  </a>
+
+  <div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+      </div>
+      <div class="info" style="display: flex;text-align: center!important; color: #000;" title="{{user}}">
+        <a class="d-block"> {{user}} </a>
+      </div>
+    </div>
+
+    <nav class="mt-2">
+
+      <ul data-widget="treeview" class="nav nav-pills nav-sidebar flex-column" data-accordion="false" role="menu">
+
+        <!--
+        <li class="nav-item" *ngFor="let option of menuItems">
+          <a [href]="'#/dashboard/'+option.link" class="nav-link">
+            <i class="far fa-circle"></i>&nbsp;
+            <p>{{ option.nombre }}</p>
+          </a>
+        </li>
+        -->
+
+        <li class="nav-item" *ngFor="let option of menuItems">
+          <a  class="nav-link" [href]=option.url> <!--  href="javascrip:void();" -->
+          <!--<a [href]="'#/dashboard/'+option.url" class="nav-link">-->
+          <!-- <i class="far fa-circle"></i>&nbsp;-->
+            <i class="{{'nav-icon ' + option.icono}}"></i>
+            <p>{{ option.titulo }}</p>
+            <i class="right fas fa-angle-left"></i>
+          </a>
+
+          <ul class="nav nav-treeview">
+            <li *ngFor="let sub of option.submenu" class="nav-item">
+
+                <!--<a <a [href]="'#/inicio/'+sub.url" class="nav-link">-->
+                 <a [routerLink]="sub.url" class="nav-link" style="cursor: pointer;">  
+                    <i class="fas fa-chevron-right"></i>
+                    <p>&nbsp; {{sub.titulo}}</p>
+                  </a>
+                  
+                <!--
+                  <ul class="nav nav-treeview">
+                    <li *ngFor="let subsubmenu of sub.submenus">
+                  
+                        <a [routerLink]="subsubmenu.url">
+                          <i class="material-icons">{{ subsubmenu.icono }}</i>
+                          {{ subsubmenu.titulo }}
+                        </a>
+                      </li>
+                  </ul>  
+                -->
+
+            </li>
+
+        </ul>
+
+
+      </li>
+
+      </ul>
+
+    </nav>
+  </div>
+</aside>
+
+
+<!--     <div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+      </div>
+      <div class="info" style="display: flex;text-align: center!important;">
+        <a class="d-block"> {{user}} </a>
+      </div>
+    </div>
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item">
+          <a href="#/dashboard/registroMarca" class="nav-link">
+            <i class="fa-circle far"></i>
+            <p class="ml-2">
+              Registro Marcación
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#/dashboard/reporteConsulta" class="nav-link">
+            <i class="fa-circle far"></i>
+            <p class="ml-2">
+              Consulta Marcación
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#/dashboard/registroAusencia" class="nav-link">
+            <i class="fa-circle far"></i>
+            <p class="ml-2">
+              Registro Ausencia
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#/dashboard/reporteAusencia" class="nav-link">
+            <i class="fa-circle far"></i>
+            <p class="ml-2">
+              Consulta Ausencia
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#/dashboard/aprobacionAusencia" class="nav-link">
+            <i class="fa-circle far"></i>
+            <p class="ml-2">
+              Aprobación Ausencia
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+</aside> -->

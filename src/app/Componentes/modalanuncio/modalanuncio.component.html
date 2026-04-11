@@ -1,0 +1,41 @@
+
+
+<div class="carousel-container" *ngIf="isVisible">
+
+      <div class="carousel-controls">
+        <div class="row carousel-row">
+          <div class="col-md-4">
+              <!-- Carousel controls -->
+              <button mat-icon-button class="carousel-button left" (click)="previous()" aria-label="Previous">
+                <mat-icon>chevron_left</mat-icon>
+              </button>
+              
+              <button mat-icon-button class="carousel-button right" (click)="next()" aria-label="Next">
+                <mat-icon>chevron_right</mat-icon>
+              </button>
+          </div>
+          
+          <div class="col-md-4 text-center">
+              <h3 style="color:rgb(1, 112, 185)"> <b> Anuncio {{this.currentIndex + 1}} de {{this.listaAnunciosAlerta.length}}</b></h3>
+          </div>
+          <div class="col-md-4 text-right">
+            <button mat-icon-button class="confirmar-button" (click)="closeModal()" aria-label="Cerrar">
+              <!--<mat-icon>close</mat-icon>-->
+              Cerrar
+            </button>
+          </div>
+          
+
+        </div>
+    </div>
+
+    <div class="carousel-slide">
+      <!-- Display the "contenido" of the current anuncio -->
+      <p [innerHTML]="contenidoHtml" class="carousel-image"></p>
+
+    </div>
+  
+
+
+  </div>
+  

@@ -1,0 +1,78 @@
+<div class="hold-transition login-page" style="background-image: url('assets/img/logo_fondo.png')">
+<!--  <div class="login-box animate__animated animate__backInLeft">-->
+  <div class="login-box">
+    <div class="card py-3" style="text-align: center;">
+       <!--<img src="./assets/img/aqua_banner.png" style="width: 65%; height:65%; margin: auto;"> -->
+    </div>
+    <!-- <div class="card card-outline card-primary">
+    </div> -->
+    <div class="card custom-card"> </div>
+    <div class="card">
+      <div class="login-logo">
+        <br>
+        <b>KIOSKO MULTIMEDIA</b>
+      </div>
+      <!--&nbsp;&nbsp;&nbsp;-->
+      <!--  <p class="login-box-msg">Accede via reconocimiento facial</p>
+      <img [src]="gifPath" class="centered-lottie" (click)="facialLogin()" title="Reconocimiento Facial"
+        alt="Reconocimiento Facial">
+      &nbsp;&nbsp;&nbsp; -->
+      <div class="card-body login-card-body">
+        <!-- <p class="login-box-msg">o ingresando tus credenciales de acceso</p> -->
+        <p class="login-box"><b>Ingrese sus credenciales</b></p>
+        <form method="post" (ngSubmit)="onLogin()" [formGroup]="loginForm">
+          <div class="input-group mb-3">
+
+            <input type="text" class="form-control" formControlName="usuario" id="usuario" placeholder="Usuario">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input [type]="isPasswordVisible ? 'text' : 'password'" class="form-control" formControlName="password" id="password"
+              placeholder="Clave">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+            <div class="input-group-append">
+              <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+                <i class="fas" [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+              </button>
+            </div>
+          </div>
+        
+          <!--
+          <div class="form-group d-flex justify-content-center align-items-center">
+            <re-captcha #recaptchaRef (resolved)="resolved($any($event))"
+              siteKey="6LfR640qAAAAALnj9hNf4IWf_eTJ8xay3WHANWeu"></re-captcha>
+          </div>
+          -->
+          <!--&nbsp;&nbsp;&nbsp;-->
+          <div class="row">
+            <!-- <button type="submit" class="btn btn-primary btn-block"> -->
+            <button type="submit" class="btn btn-dark btn-block" style="background-color:#0063A7;" [disabled]="loginForm.invalid">
+              <span>Ingresar</span>
+            </button>
+          </div>
+          <!-- &nbsp;
+          <div class="row">
+            <button (click)="facialReg()" type="button" class="text-white btn btn-info btn-block">
+              <span>Regístrate</span>
+            </button>
+          </div> -->
+        </form>
+        <!--&nbsp;&nbsp;-->
+        <p class="mb-1 mt-2 text-center">
+            <a target="_blank" href="https://www.upn.edu.pe/">© UPN Diseño y Arquitectura de Sistemas</a>
+        </p>
+        <p class="mb-0 text-center">
+          Todos los derechos reservados.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

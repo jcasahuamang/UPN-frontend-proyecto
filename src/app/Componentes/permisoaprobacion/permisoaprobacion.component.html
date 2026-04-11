@@ -1,0 +1,259 @@
+<div class="card mx-3">
+
+    <div class="card-header">
+      <h3 class="card-title">
+        <i class="far fa-list-alt"></i>
+          &nbsp;
+          Permisos
+          &nbsp;
+    </h3>
+
+    <div class="row">
+      <div class="col-md-10">
+
+      </div>
+      <div class="col-md-2">
+        &nbsp;&nbsp;
+        <!--
+        <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" (click)="onExportExcel()"
+        >
+          <i class="fa fa-file-excel"></i>&nbsp;&nbsp;Exportar Excel
+        </button>
+        -->
+      </div>
+
+    </div>
+  
+    </div>
+  
+    <div class="card-body">
+      <!--Start creating your amazing application!-->
+      <!-- Contenedor principal para los filtros -->
+      <div class="container mt-0 ml-1 mr-1">
+
+        <form method="post" (ngSubmit)="onFiltrar()" [formGroup]="filtroForm">
+          <div class="row">
+            <!-- Filtro de Tipo de Empresa -->
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="empresa">Empresas</label>
+                <select class="form-control" style="width: 100%;" 
+                   data-select2-id="1" tabindex="-1" aria-hidden="true" id="empresa" formControlName="empresa"
+                   (change)="ListPlanillas()">
+                  <option value="00" disabled>Seleccionar</option>
+                  <option *ngFor="let item of listaEmpresas" [value]="item.id">
+                    {{item.desrazonsocial}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Filtro de Tipo de Planilla -->
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="planilla">Planilla</label>
+                <select class="form-control" style="width: 100%;" 
+                data-select2-id="1" tabindex="-1" aria-hidden="true" id="planilla" formControlName="planilla">
+<!--               <option value="00" disabled>Todos</option>-->
+               <option value="00">Todos</option>               
+               <option *ngFor="let item of listaPlanillas" [value]="item.codtipoplanilla">
+                 {{item.destipoplanilla}}
+               </option>
+             </select>
+              </div>
+            </div>
+
+            <!-- Filtro de estado -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="estado">Estado</label>
+                  <select class="form-control" id="estado" formControlName="estado">
+<!--                    <option value="00" disabled>Seleccionar</option>-->
+                    <option value="00">Todos</option>                    
+                    <option *ngFor="let item of permisoEstado" [value]="item.codigo">
+                      {{item.descripcion}}
+                    </option>
+
+                  </select>
+                </div>
+              </div>
+          
+        
+              <!-- Botón de Filtro -->
+               <!--          <div class="col-md-2 text-right">-->
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label for="mes" style="color: white;">   .</label>
+                  <div class="row">
+                    <!--<button class="btn btn-primary" onclick="ejecutarFiltro()">Filtrar</button>-->
+                    <button *ngIf="!isProcessing" class="btn btn-info" title="Filtrar Periodos">
+                      <i class="fas fa-search"></i> <!-- Icono de búsqueda -->
+                    </button>
+
+                    <button *ngIf="isProcessing" class="btn btn-info" type="button" disabled>
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <!-- Consultando...-->
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+    
+            </div>        
+        </form>
+
+      </div>
+
+      <div class="table-responsive">
+
+        <table mat-table [dataSource]="detalleData" class="mat-elevation-z8">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="Opciones">
+          <!--  
+          
+          <th mat-header-cell *matHeaderCellDef style="padding: 12px; margin: 0px;">
+            <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+            </th>
+            -->
+              <th mat-header-cell *matHeaderCellDef> </th>            
+            <td mat-cell *matCellDef="let row" style="padding: 12px; margin: 0px;">
+            <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+            </td>
+        </ng-container>
+        
+            <ng-container matColumnDef="Nombre">
+              <th mat-header-cell *matHeaderCellDef> Nombre</th>
+              <td mat-cell *matCellDef="let visualizacion" (contextmenu)="openContextMenu($event, visualizacion)"> 
+                {{visualizacion.despersonal}} </td>
+            </ng-container>
+ 
+    
+            <ng-container matColumnDef="Doc identidad">
+                <th mat-header-cell *matHeaderCellDef> Doc identidad</th>
+                <td mat-cell *matCellDef="let visualizacion" (contextmenu)="openContextMenu($event, visualizacion)">
+                {{visualizacion.docidentidad}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Fec Ingreso">
+                <th mat-header-cell *matHeaderCellDef> Fec Ingreso</th>
+                <td mat-cell *matCellDef="let visualizacion" (contextmenu)="openContextMenu($event, visualizacion)">
+                {{visualizacion.fecingreso | date:'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="Planilla">
+                <th mat-header-cell *matHeaderCellDef> Planilla</th>
+                <td mat-cell *matCellDef="let visualizacion" (contextmenu)="openContextMenu($event, visualizacion)">
+                {{visualizacion.desplanilla}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="Tipo">
+                <th mat-header-cell *matHeaderCellDef> Tipo</th>
+                <td mat-cell *matCellDef="let visualizacion" (contextmenu)="openContextMenu($event, visualizacion)">
+                {{visualizacion.destipo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Fecha Inicio">
+                <th mat-header-cell *matHeaderCellDef> Fecha Inicio</th>
+                <td mat-cell *matCellDef="let visualizacion" (contextmenu)="openContextMenu($event, visualizacion)">
+                {{visualizacion.fecinicio | date:'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Fecha Fin">
+                <th mat-header-cell *matHeaderCellDef> Fecha Fin</th>
+                <td mat-cell *matCellDef="let visualizacion" (contextmenu)="openContextMenu($event, visualizacion)">
+                {{visualizacion.fecfin | date:'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Dias">
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Dias</th>
+                <td mat-cell *matCellDef="let visualizacion" style="text-align: center;" (contextmenu)="openContextMenu($event, visualizacion)">
+                {{visualizacion.dias}} </td>
+            </ng-container>
+            <!--
+            <ng-container matColumnDef="Estado">
+              <th mat-header-cell *matHeaderCellDef> Estado</th>
+              <td mat-cell *matCellDef="let visualizacion" [ngStyle]="{'color': visualizacion.estado === 'Habilitado' ? 'green' : 'red'}">{{visualizacion.estado}}
+              </td>
+            </ng-container>
+            -->
+            <ng-container matColumnDef="Estado">
+              <th mat-header-cell *matHeaderCellDef> Estado</th>
+              <td mat-cell *matCellDef="let visualizacion" (contextmenu)="openContextMenu($event, visualizacion)">
+             {{visualizacion.desestado}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Comentarios">
+                <th mat-header-cell *matHeaderCellDef> Comentarios</th>
+                <td mat-cell *matCellDef="let visualizacion" (contextmenu)="openContextMenu($event, visualizacion)">
+                {{visualizacion.observacion}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="detalleCol"></tr>
+            <tr mat-row *matRowDef="let row; columns: detalleCol;"
+            (click)="onRowClicked(row)"
+            [ngClass]="{'selected': selectedId === row.id}"></tr>
+
+
+        </table>
+
+        <mat-paginator #paginatordetalle [pageSizeOptions]="[9,18]" showFirstLastButtons></mat-paginator>
+
+    </div>
+
+    </div>
+    <!-- /.card-body -->
+    <!--<div class="card-footer">
+      Footer
+    </div>-->
+  
+    <div class="modal-footer">
+      <!--
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-info" #closeBtn>Guardar</button>
+        -->
+    </div>
+  
+  
+    <!-- /.card-footer-->
+  </div>
+  
+
+  <div 
+  [style.left]="contextMenuPosition.x" 
+  [style.top]="contextMenuPosition.y"
+  style="position: fixed;"
+  [matMenuTriggerFor]="contextMenu"
+  #menuTrigger="matMenuTrigger">
+</div>
+  <!-- Menú contextual -->
+<!--
+  <mat-menu #contextMenu="matMenu">
+  <button mat-menu-item (click)="onAprobar()" style="color: rgb(41, 93, 156);"> <mat-icon style="color: green;">check_circle</mat-icon>Aprobar</button>
+  <button mat-menu-item (click)="opTransferir()" style="color: rgb(41, 93, 156);"><mat-icon style="color: rgb(23, 162, 184);">swap_horiz</mat-icon>Transferir</button>
+  <button mat-menu-item (click)="onRechazar()" style="color: rgb(41, 93, 156);"><mat-icon style="color: red;">cancel</mat-icon>Rechazar</button>
+  <hr style="padding: 0;margin: 0;">
+  <button mat-menu-item (click)="opcion4()" style="color:rgb(220, 53, 69);background-color: rgb(252, 235, 236);"><mat-icon style="color: #2196F3">undo</mat-icon>Revertir</button>  
+  <hr style="padding: 0;margin: 0;">
+  <button mat-menu-item (click)="opcion5()"><mat-icon style="color: rgb(63, 81, 181)">select_all</mat-icon>{{desOpcionSeleccionar}}</button>    
+</mat-menu>
+-->
+  <mat-menu #contextMenu="matMenu">
+  <button mat-menu-item (click)="onEjecutar('APROBAR')" style="color: rgb(41, 93, 156);"> <mat-icon style="color: green;">check_circle</mat-icon>Aprobar</button>
+  <button mat-menu-item (click)="onEjecutar('TRANSFERIR')" style="color: rgb(41, 93, 156);"><mat-icon style="color: rgb(23, 162, 184);">swap_horiz</mat-icon>Transferir</button>
+  <button mat-menu-item (click)="onEjecutar('RECHAZAR')" style="color: rgb(41, 93, 156);"><mat-icon style="color: red;">cancel</mat-icon>Rechazar</button>
+  <hr style="padding: 0;margin: 0;">
+  <button mat-menu-item (click)="onEjecutar('REVERTIR')" style="color:rgb(220, 53, 69);background-color: rgb(252, 235, 236);"><mat-icon style="color: #2196F3">undo</mat-icon>Revertir</button>  
+  <hr style="padding: 0;margin: 0;">
+  <button mat-menu-item (click)="masterToggle()"><mat-icon style="color: rgb(63, 81, 181)">select_all</mat-icon>{{desOpcionSeleccionar}}</button>    
+</mat-menu>

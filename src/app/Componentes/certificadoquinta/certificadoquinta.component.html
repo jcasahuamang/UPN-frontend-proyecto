@@ -1,0 +1,66 @@
+<div class="card mx-3">
+    <div class="card-header">
+        <h3 class="card-title">
+          <i class="far fa-list-alt"></i>
+            &nbsp;
+            Generar Documento
+            &nbsp;
+      </h3>
+  
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <!--
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <i class="fas fa-times"></i>
+            </button>
+            -->
+        </div>
+    </div>
+    
+    <div class="card-body">
+      <form method="post" [formGroup]="filtroForm">
+  
+            <!-- Filtro de Año y Mes -->
+            <div class="form-group">
+              <label for="year">Año</label>
+              <input type="number" formControlName="year" id="year" class="form-control" placeholder="Ingresa el Año" min="2020" max="2100">
+          </div>
+  
+      <!-- Botón para Capturar Valores y Mostrar PDF -->
+      <button *ngIf="!isProcessing" type="submit" class="btn btn-primary"  (click)="onGenerarPDF('Visualiza')">Visualizar</button>
+      <button *ngIf="isProcessing && isVisualiza" class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Visualizando...
+      </button>
+      &nbsp;&nbsp;
+            <!-- Botón para Capturar Valores y Mostrar PDF -->
+      <button *ngIf="!isProcessing" type="submit" class="btn btn-info"  (click)="onGenerarPDF('Descarga')">Descargar</button>
+      <button *ngIf="isProcessing &&isDescarga" class="btn btn-info" type="button" disabled>
+         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+         Descargando...
+      </button>
+
+
+      </form>    
+    </div>
+  
+    <!--
+    <div class="card-footer">
+        Footer
+    </div>
+  -->
+  </div>
+  
+  
+  <!-- El Modal para mostrar el PDF -->
+  <div id="pdfModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <!--<span (click)="closePdfModal()" class="close">&times;</span>-->
+  
+      <button type="button" class="btn btn-primary" (click)="closePdfModal()">Cerrar Documento</button>
+  
+      <embed id="pdfViewer" src = "" type="application/pdf" width="100%" height="680px">
+    </div>
+  </div>

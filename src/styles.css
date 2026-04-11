@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.swal-centered {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    /* Evita márgenes inesperados */
+    width: 90% !important;
+    /* Ajusta el ancho en dispositivos móviles */
+    max-width: 500px;
+    /* Ancho máximo para pantallas grandes */
+}
+
+@media (max-width: 600px) {
+    .swal-centered {
+        width: 90% !important;
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 601px) {
+    .swal-centered {
+        width: 500px;
+    }
+}

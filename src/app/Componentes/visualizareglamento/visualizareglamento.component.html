@@ -1,0 +1,140 @@
+
+<div class="card mx-3">
+
+    <div class="card-header">
+      <h3 class="card-title">
+        <i class="far fa-list-alt"></i>
+          &nbsp;
+          Relación de documentos
+          &nbsp;
+        </h3>
+
+        <div class="row">
+            <div class="col-md-9">
+    
+            </div>
+            <div class="col-md-3">
+<!--              
+              <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" (click)="onNew()"
+                data-target="#viewModalsede">
+                  <i  class="far fa-plus-square"></i>&nbsp;&nbsp;Crear
+              </button>
+              &nbsp;&nbsp;
+              <button type="button" *ngIf="!isProcessing" class="btn btn-outline-success btn-sm" data-toggle="modal" (click)="onExportExcel()">
+                <i class="fa fa-file-excel"></i>&nbsp;&nbsp;Exportar Excel
+              </button>    
+
+              <button type="button" *ngIf="isProcessing" class="btn btn-outline-success btn-sm" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <i class="fa fa-file-excel"></i>&nbsp;&nbsp;Exportando...
+              </button>    
+
+    -->          
+              
+            </div>
+    
+          </div>
+    </div>
+  
+    <div class="card-body">
+      <!--Start creating your amazing application!-->
+      <!-- Contenedor principal para los filtros -->
+      <div class="container mt-0 ml-1 mr-1">
+        <mat-form-field>
+            <mat-label>Filtrar regitros</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="  Ingrese el valor buscado " #input>
+          </mat-form-field>
+
+      </div>
+
+      <div class="table-responsive">
+
+        <table mat-table [dataSource]="detalleData" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="Opciones">
+                <th mat-header-cell *matHeaderCellDef> Opciones </th>
+
+                <td mat-cell *matCellDef="let reglamento">
+                    <button type="button" name="visualizar" (click)="onVisualizar(reglamento,'Visualiza')"
+                        title="Visualizar"
+                        class="btn btn-primary btn-sm">
+                        <i class="far fa-eye"></i>
+<!--                        <i class="fa-pencil"></i>-->
+                    </button>
+                    &nbsp;
+                    <button type="button" name="descargar" (click)="onVisualizar(reglamento,'Descarga')"
+                        title="Descargar"
+                        class="btn btn-success btn-sm">
+                        <i class="fas fa-download"></i>
+<!--                        <i class="fa-pencil"></i>-->
+                    </button>
+                </td>
+
+
+            </ng-container>
+
+            <ng-container matColumnDef="Id">
+              <th mat-header-cell *matHeaderCellDef> Id</th>
+              <td mat-cell *matCellDef="let reglamento"> {{reglamento.id}} </td>
+            </ng-container>
+ 
+            <ng-container matColumnDef="Titulo">
+              <th mat-header-cell *matHeaderCellDef>Titulo</th>
+              <td mat-cell *matCellDef="let reglamento"> {{reglamento.titulo}} </td>
+            </ng-container>
+ 
+
+          <ng-container matColumnDef="Descripcion">
+            <th mat-header-cell *matHeaderCellDef> Descripcion</th>
+            <td mat-cell *matCellDef="let reglamento"> {{reglamento.descripcion | slice:0:90}} </td>
+           </ng-container>
+
+           <ng-container matColumnDef="Estado">
+            <th mat-header-cell *matHeaderCellDef> Estado</th>
+            <td mat-cell *matCellDef="let reglamento"> 
+              {{ getDescripcionEstado(reglamento.estado) }}              
+            </td>
+           </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="detalleCol"></tr>
+            <tr mat-row *matRowDef="let row; columns: detalleCol;"
+            (click)="onRowClicked(row)"
+            [ngClass]="{'selected': selectedId === row.id}"
+            ></tr>
+
+
+        </table>
+
+        <mat-paginator #paginatordetalle [pageSizeOptions]="[6,12]" showFirstLastButtons></mat-paginator>
+
+    </div>
+
+    </div>
+    <!-- /.card-body -->
+    <!--<div class="card-footer">
+      Footer
+    </div>-->
+  
+    <div class="modal-footer">
+      <!--
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-info" #closeBtn>Guardar</button>
+        -->
+    </div>
+  
+    <!-- /.card-footer-->
+  </div>
+
+
+  <!-- El Modal para mostrar el PDF -->
+<div id="pdfModal" class="modal" style="display: none; height: 150%;">
+  <div class="modal-content">
+    <!--<span (click)="closePdfModal()" class="close">&times;</span>-->
+
+    <button type="button" class="btn btn-primary" (click)="closePdfModal()">Cerrar Documento</button>
+
+<!--  <embed id="pdfViewer" src = "" type="application/pdf" width="100%" height="600px">-->
+  <embed id="pdfViewer" src = "" type="application/pdf" width="100%" height="680px">
+  </div>
+</div>

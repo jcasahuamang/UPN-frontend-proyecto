@@ -1,0 +1,30 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<div class="datepicker-container">
+    <mat-form-field>
+        <mat-label>Seleccionar fecha</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+<div class="chart-wrapper">
+    <div #chartContainer id="container"></div>
+    <button style="margin-top: 20px; background-color: #17A2B8;" class="toggle-button" (click)="toggleVisibility()">
+        {{ isVisible ? 'Ocultar Detalles' : 'Mostrar Detalles' }}
+        <i [class]="isVisible ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+    </button>
+    <div *ngIf="isVisible" style="margin-top: 20px; text-align: start;">
+        <p>
+            Hora de primera marca del día: <strong>{{ item.horaPriMarcaDia }}</strong><br>
+            Hora de última marca del día: <strong>{{ item.horaUltMarcaDia }}</strong><br>
+            Total de días de falta en el mes (excluyendo hoy): <strong>{{ item.totDiasFaltaMesNoHoy }}</strong><br>
+            Total de días de falta en el año (excluyendo hoy): <strong>{{ item.totDiasFaltaAnhoNoHoy }}</strong><br>
+            Total de horas de tardanza en el mes (excluyendo hoy): <strong>{{ item.totHoraTardanzaMesNoHoy
+                }}</strong><br>
+            Total de horas de tardanza en el año (excluyendo hoy): <strong>{{ item.totHoraTardanzaAnhoNoHoy }}</strong>
+        </p>
+    </div>
+    <div #pieChartTotal style="margin-top: 20px;" id="container"></div>
+    <div #pieChartAsistencia id="container"></div>
+</div>
