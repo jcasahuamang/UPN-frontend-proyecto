@@ -10,5 +10,5 @@ export class Parametro {
   public static SISTEMA_BASE: string = "";
 
   public static SISTEMA_KIOSKO: string = "http://localhost:9090/service-kiosko-general/"
-
+// public static SISTEMA_KIOSKO: string = "/service-kiosko-general/"
 }

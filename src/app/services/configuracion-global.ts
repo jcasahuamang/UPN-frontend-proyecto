@@ -5,7 +5,8 @@ export class Configuracion{
      [
      ["RootDesarrollo", "http://localhost:8060"],
      ["Root", "http://localhost:9090/service-kiosko-general"],
-     ["RootProduccion", "http://192.168.50.250:9080/service-kiosko"],
+//     ["Root", "/service-kiosko-general"],
+     ["RootProduccion", "http://localhost:9090/service-kiosko-general"],
      ["Auth", "auth"],
      ["Compania", "compania"],
      ["Usuario", "usuario"],
