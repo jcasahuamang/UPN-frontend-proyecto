@@ -1,11 +1,23 @@
-import { TokenService } from './../../services/TokenService';
-import { PersonalService } from 'src/app/services/personal.service';
 import { Component, OnInit } from '@angular/core';
-import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ParamRegistraVisualiza } from 'src/app/Clases/paramregistravisualiza';
-import { ConfiguracionService } from 'src/app/services/configuracion.service';
+import Swal from 'sweetalert2';
+
 import { Configuracion } from 'src/app/services/configuracion-global';
+import { PersonalService } from 'src/app/services/personal.service';
+import { TokenService } from 'src/app/services/TokenService';
+import {
+  DocumentoLaboralService, MES_SIN_SELECCION, ResultadoValidacion,
+  SolicitudDocumento, TipoDocumento, VERSION_PLANILLA
+} from 'src/app/services/documento-laboral.service';
+
+const MENSAJES = {
+  periodoInvalido: 'Debe ingresar el año y mes correctamente',
+  sinCodigoPersonal: 'Su usuario no tiene configurado un código de personal',
+  noHabilitado: 'La visualización de documentos aún no esta habilitada para el periodo seleccionado',
+  sinInformacion: 'No existe información para el periodo seleccionado',
+  noSePuedeGenerar: 'No se puede generar el documento',
+  pdfVacio: 'El archivo PDF generado está vacío.',
+};
 
 @Component({
   selector: 'app-boletapago',
@@ -16,246 +28,135 @@ export class BoletapagoComponent implements OnInit {
 
   public filtroForm: FormGroup;
   public numdocidentidadpersonal: string;
-  paramRegistraVisualiza: ParamRegistraVisualiza;
-  isProcessing: boolean = false;
   public mesesLista?: any[];
-  isVisualiza: boolean = false;
-  isDescarga: boolean = false;
+  isProcessing = false;
+  isVisualiza = false;
+  isDescarga = false;
 
   constructor(private personalService: PersonalService,
-    private configuracionService: ConfiguracionService,
-    private tokenService: TokenService,
-    private fb: FormBuilder
-  ) { }
+              private documentoService: DocumentoLaboralService,
+              private tokenService: TokenService,
+              private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.inicializarForm();
     this.ListaMeses();
   }
 
-    ListaMeses() {
-      this.mesesLista = new Configuracion().meses;
-    }
+  ListaMeses() {
+    this.mesesLista = new Configuracion().meses;
+  }
 
-  inicializarForm(): void{
+  inicializarForm(): void {
     this.filtroForm = this.fb.group({
       year: ['', Validators.compose([Validators.required])],
-      month: ['00', Validators.required],
-     })
+      month: [MES_SIN_SELECCION, Validators.required],
+    });
   }
 
-  
   onResetForm() {
-    this.isProcessing = false;
-    this.isVisualiza = false;
-    this.isDescarga = false;
+    this.reiniciarEstado();
     this.filtroForm.reset();
-    this.filtroForm.get("year")!.setValue("");
-    this.filtroForm.get("month")!.setValue("00");
+    this.filtroForm.get('year')!.setValue('');
+    this.filtroForm.get('month')!.setValue(MES_SIN_SELECCION);
   }
-  
+
   onGenerarPDF(tipo: string) {
-    this.isProcessing = false;
-    this.isVisualiza = false;
-    this.isDescarga = false;
+    this.reiniciarEstado();
 
-    
-    if (!this.filtroForm.valid || this.filtroForm.get('month')!.value === '00') {
-      this.alerta('Aviso','Debe ingresar el año y mes correctamente');
-//      Swal.fire('Aviso', 'Debe ingresar el año y mes correctamente', 'warning');
-//      alert("Debe ingresar el año y mes correctamente");
+    if (!this.filtroForm.valid || this.filtroForm.get('month')!.value === MES_SIN_SELECCION) {
+      this.alerta('Aviso', MENSAJES.periodoInvalido);
       return;
     }
-     
     if (!this.tokenService.isCodificado()) {
-
-      this.alerta('Aviso','Su usuario no tiene configurado un código de personal');
+      this.alerta('Aviso', MENSAJES.sinCodigoPersonal);
       return;
     }
 
-    this.numdocidentidadpersonal = ''; 
-        //Obteniendo el numero de doc de identidad
-        this.personalService.getDatos(this.tokenService.getCodEmpresa(),this.tokenService.getCodPersonal(),
-                        this.tokenService.getUserName()).subscribe(
-        (result) => {
-            this.numdocidentidadpersonal = result.numdocidentidad;
+    const ano = String(this.filtroForm.get('year')!.value);
+    const mes = this.filtroForm.get('month')!.value;
 
-            this.personalService.getPersonalValidaVisualizacion(//Validando si se puede generar el documento
-                  this.tokenService.getCodEmpresa(),
-                  this.filtroForm.get('year')!.value,
-                  this.filtroForm.get('month')!.value,
-                  '001',
-                  this.tokenService.getCodPersonal(),
-                  this.tokenService.getUserName(),
-                  this.numdocidentidadpersonal,'BOL').
-                  subscribe(
-              (valor) => {
-                if(valor===0)//Si es cero significa que se puede generar la boleta
-                  { 
-                    this.isProcessing = true;
-                    if (tipo === 'Descarga'){ this.isDescarga = true;}  
-                    if (tipo === 'Visualiza'){ this.isVisualiza = true;}
-
-                                //Generando la boleta de pago
-                                this.personalService.getPersonalBoletaPago(
-                                  this.tokenService.getCodEmpresa(),
-                                  this.filtroForm.get('year')!.value,
-                                  this.filtroForm.get('month')!.value,
-                                  '001',
-                                  this.tokenService.getCodPersonal(),
-                                  this.tokenService.getUserName(),
-                                  this.numdocidentidadpersonal).subscribe(
-                                  (result) => {
-                            
-                                  
-                                      if (result.size === 0) {// Verificar si el archivo PDF está vacío
-                                        alert("El archivo PDF generado está vacío.");
-                                        this.isProcessing = false;
-                                        return;
-                                      }
-                                        
-                                      if (tipo === 'Descarga'){  
-                                        const url = window.URL.createObjectURL(result);
-                                        // Crear un enlace temporal para forzar la descarga
-                                        const link = document.createElement('a');
-                                        link.href = url;
-                                        link.target = '_blank';  // Abrir en una nueva pestaña
-
-                                        // Establecer el nombre del archivo PDF para la descarga (si lo deseas)
-                                        link.download = 'BoletaPago'+this.numdocidentidadpersonal+'.pdf';  // Puedes cambiar 'archivo.pdf' por el nombre que desees
-
-                                        // Simular un clic en el enlace para iniciar la descarga
-                                        link.click();
-
-                                        // Liberar el objeto URL después de usarlo
-                                        window.URL.revokeObjectURL(url);
-
-                                        this.isProcessing = false;
-                                        this.paramRegistraVisualiza = new ParamRegistraVisualiza(
-                                          this.tokenService.getCodEmpresa(),
-                                          this.filtroForm.get('year')!.value.toString(),
-                                          this.filtroForm.get('month')!.value,
-                                          this.tokenService.getCodPersonal(),
-                                          this.tokenService.getUserName(),
-                                          this.numdocidentidadpersonal,'BOL');
-          
-                                          this.onResetForm();
-                                          //Registrando en la tabla de auditoria
-                                          this.configuracionService.registraVisualizacion(this.paramRegistraVisualiza).subscribe(
-                                            (result)=>{
-                                              if (result.valueOf() === 1){
-                                              }
-                                            }, error => {
-                                              this.isProcessing = false;
-                                              console.log(error);
-//                                                    this.filtroForm.reset();
-                                            }
-                                          );
-                                      }                    
-                                      if (tipo === 'Visualiza'){
-                                        const url = window.URL.createObjectURL(result);//     window.open(url);
-                                        const modal = document.getElementById('pdfModal') as HTMLElement;
-                                        const pdfViewer = document.getElementById('pdfViewer') as HTMLEmbedElement;
-                                        pdfViewer.src = url;  // Establecer la URL del PDF en el <embed> para mostrarlo
-                                        modal.style.display = 'block';         // Mostrar el modal con el PDF
-    //                                  modal.style.position = 'fixed'; // Fijar el modal en la pantalla
-    //                                    modal.style.top = '0';
-    //                                    modal.style.left = '0';
-    //                                    modal.style.width = '100vw';  // Asegurarse de que ocupe el 100% del ancho de la pantalla
-    //                                    modal.style.height = '140vh'; // Asegurarse de que ocupe el 100% de la altura de la pantalla
-    //                                    modal.style.zIndex = '9999'; // Asegurarse de que esté por encima de otros elementos
-    //                                    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'; // Fondo semitransparente para mejorar la visibilidad del modal
-    
-                                        // Ajustar el tamaño del <embed> para que se vea bien en pantallas pequeñas
-      //                                  pdfViewer.style.width = '100%';  // El PDF debe ocupar el 100% del ancho de la pantalla
-      //                                  pdfViewer.style.height = '100%'; // El PDF debe ocupar el 100% de la altura de la pantalla
-    //                                    pdfViewer.style.border = 'none'; // Eliminar bordes si los hay
-    
-                                        pdfViewer.onload = () => {
-                                          this.isProcessing = false;
-                                          // El PDF se cargó correctamente
-    //                                      alert("El PDF BOLETA se ha cargado correctamente.");                                          
-                                                  this.paramRegistraVisualiza = new ParamRegistraVisualiza(
-                                                    this.tokenService.getCodEmpresa(),
-                                                    this.filtroForm.get('year')!.value.toString(),
-                                                    this.filtroForm.get('month')!.value,
-                                                    this.tokenService.getCodPersonal(),
-                                                    this.tokenService.getUserName(),
-                                                    this.numdocidentidadpersonal,'BOL');
-                    
-                                                    this.onResetForm();
-                                                    //Registrando en la tabla de auditoria
-                                                    this.configuracionService.registraVisualizacion(this.paramRegistraVisualiza).subscribe(
-                                                      (result)=>{
-                                                        if (result.valueOf() === 1){
-                                                        }
-                                                      }, error => {
-                                                        this.isProcessing = false;
-                                                        console.log(error);
-    //                                                    this.filtroForm.reset();
-                                                      }
-                                                    );
-                                                  
-                                          // Aquí puedes agregar cualquier lógica adicional que desees, como un mensaje de éxito en la interfaz.
-                                        };
-    
-    
-                                      }
-
-                                  }, error => {
-                                    this.isProcessing = false;
-                                    console.log(error);
-                                  });
-                }else{
-                    if (valor ===1){
-                      this.isProcessing = false;
-                      this.alerta('Aviso','La visualización de documentos aún no esta habilitada para el periodo seleccionado');
-                    }else{
-                      if (valor===2){
-                        this.isProcessing = false;
-                        this.alerta('Aviso','No existe información para el periodo seleccionado');                        
-                      }else{
-                        this.isProcessing = false;
-                        this.alerta('Aviso','No se puede generar el documento');                        
-                      }
-                    }
-                }              
-                
-                
-              }, error => {
-                this.isProcessing = false;
-                console.log(error);
-              });
-    
-        }, error => {
-          this.isProcessing = false;
-          console.log(error);
-        }
-        );
-
-
+    this.documentoService.validarPeriodo(TipoDocumento.BOLETA_PAGO, ano, mes).subscribe({
+      next: ({ solicitud, resultado }) => this.procesarValidacion(tipo, solicitud, resultado),
+      error: error => this.terminarConError(error),
+    });
   }
 
-  // Función para cerrar el modal
   closePdfModal() {
-    const modal = document.getElementById('pdfModal') as HTMLElement;
-    const pdfViewer = document.getElementById('pdfViewer') as HTMLEmbedElement;
-    // Ocultar el modal y limpiar la URL del PDF
-    modal.style.display = 'none';
-    pdfViewer.src = '';
+    this.documentoService.cerrarPdf();
     this.onResetForm();
   }
 
-  alerta(titulo: string,mensaje:string){
+  alerta(titulo: string, mensaje: string) {
     Swal.fire({
       title: titulo,
       text: mensaje,
       icon: 'warning',
-      width: '350px',  // Establecer el ancho del popup
-      padding: '10px', // Ajustar el padding para que el contenido quede bien dentro
-      backdrop: true,  // Mantener el fondo de la ventana oscurecido
-      confirmButtonText: 'Aceptar', // Botón de confirmación
-    });      
+      width: '350px',
+      padding: '10px',
+      backdrop: true,
+      confirmButtonText: 'Aceptar',
+    });
+  }
 
+  /** Si el periodo está habilitado pide el PDF; si no, muestra el motivo. */
+  private procesarValidacion(tipo: string, solicitud: SolicitudDocumento, resultado: number): void {
+    if (resultado !== ResultadoValidacion.PERMITIDO) {
+      this.isProcessing = false;
+      this.alerta('Aviso', this.mensajeValidacion(resultado));
+      return;
+    }
+
+    this.numdocidentidadpersonal = solicitud.dni;
+    this.isProcessing = true;
+    this.isDescarga = tipo === 'Descarga';
+    this.isVisualiza = tipo === 'Visualiza';
+
+    this.personalService.getPersonalBoletaPago(solicitud.codEmpresa, solicitud.ano, solicitud.mes,
+        VERSION_PLANILLA, solicitud.codPersonal, solicitud.usuario, solicitud.dni)
+      .subscribe({
+        next: pdf => this.entregarPdf(tipo, pdf, solicitud),
+        error: error => this.terminarConError(error),
+      });
+  }
+
+  /** Descarga o muestra el PDF según lo que pidió el usuario. */
+  private entregarPdf(tipo: string, pdf: Blob, solicitud: SolicitudDocumento): void {
+    if (pdf.size === 0) {
+      this.isProcessing = false;
+      alert(MENSAJES.pdfVacio);
+      return;
+    }
+    if (tipo === 'Descarga') {
+      this.documentoService.descargarPdf(pdf, 'BoletaPago' + solicitud.dni + '.pdf');
+      this.finalizar(solicitud);
+    } else if (tipo === 'Visualiza') {
+      this.documentoService.mostrarPdf(pdf, () => this.finalizar(solicitud));
+    }
+  }
+
+  /** Reinicia el formulario y registra la consulta en auditoría (CP-07). */
+  private finalizar(solicitud: SolicitudDocumento): void {
+    this.onResetForm();
+    this.documentoService.registrarAuditoria(solicitud, TipoDocumento.BOLETA_PAGO);
+  }
+
+  private mensajeValidacion(resultado: number): string {
+    switch (resultado) {
+      case ResultadoValidacion.NO_HABILITADO: return MENSAJES.noHabilitado;
+      case ResultadoValidacion.SIN_INFORMACION: return MENSAJES.sinInformacion;
+      default: return MENSAJES.noSePuedeGenerar;
+    }
+  }
+
+  private terminarConError(error: unknown): void {
+    this.isProcessing = false;
+    console.log(error);
+  }
+
+  private reiniciarEstado(): void {
+    this.isProcessing = false;
+    this.isVisualiza = false;
+    this.isDescarga = false;
   }
 }
